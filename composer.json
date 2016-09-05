@@ -1,0 +1,33 @@
+{
+    "name": "culture-pn-psu/yii2-material",
+    "description": "Material management system for Yii2.",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"],
+    "license": "GPL-3.0",
+    "minimum-stability": "stable",
+    "support": {
+        "source": "https://github.com/culture-pn-psu/yii2-material.git",
+        "issues": "https://github.com/culture-pn-psu/yii2-material/issues"
+    },
+    "authors": [
+        {
+            "name": "Culture Service",
+            "email": "ahamad.jedu@gmail.com",
+            "role" : "Developer"
+        }
+    ],
+    "require": {
+        "andatech/yii2-core": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "culturePnPsu\\material\\": ""
+        }
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    }
+}
