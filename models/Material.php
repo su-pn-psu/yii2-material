@@ -11,12 +11,14 @@ use Yii;
  * @property string $title
  * @property string $brand
  * @property integer $status
+ * @property integer $available
  * @property string $bought_at
  * @property string $warrant_at
  * @property integer $created_at
  * @property integer $created_by
  * @property integer $updated_at
  * @property integer $updated_by
+ * @property string $image
  *
  * @property Repair[] $repairs
  */
@@ -30,6 +32,10 @@ class Material extends \yii\db\ActiveRecord
         return 'material';
     }
 
+    public $file;
+    public $filepath;
+    public $availlist = ['0'=>'yes','1'=>'no'];
+    public $statlist = ['0'=>'damaged','1'=>'ready'];
     /**
      * @inheritdoc
      */
@@ -37,11 +43,12 @@ class Material extends \yii\db\ActiveRecord
     {
         return [
             [['id', 'title'], 'required'],
-            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['status', 'available', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['bought_at', 'warrant_at'], 'safe'],
             [['id'], 'string', 'max' => 30],
-            [['title'], 'string', 'max' => 255],
-            [['brand'], 'string', 'max' => 100]
+            [['title', 'invt_image'], 'string', 'max' => 255],
+            [['brand'], 'string', 'max' => 100],
+            [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -61,9 +68,30 @@ class Material extends \yii\db\ActiveRecord
             'created_by' => Yii::t('app', 'สร้างโดย'),
             'updated_at' => Yii::t('app', 'ปรับปรุงเมื่อ'),
             'updated_by' => Yii::t('app', 'แก้ไขโดย'),
+            'invt_image' => 'รูปภาพ',
+            'available' => 'พร้อมยืม',
         ];
     }
 
+    public function upload()
+    {
+        $defaultImageWidth = 1024;
+
+        if ($this->validate(['file'])) {
+            $targetPath = Yii::getAlias('@web/uploads/material_files/');
+            $this->filepath = $targetPath .time().'_'. $this->file->baseName . '.' . $this->file->extension;
+            //echo $this->filepath;exit;
+            $this->file->saveAs($this->filepath);
+            /*if($this->isImage($this->filepath)){
+                $image= Yii::$app->image->load($this->filepath);
+                $image->resize($defaultImageWidth);
+                $image->save($this->filepath);
+            }*/
+            return true;
+        } else {
+            return false;
+        }
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
