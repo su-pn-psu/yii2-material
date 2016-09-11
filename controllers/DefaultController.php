@@ -5,12 +5,15 @@ namespace suPnPsu\material\controllers;
 use Yii;
 use suPnPsu\material\models\Material;
 use suPnPsu\material\models\MaterialSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\data\ActiveDataProvider;
 use suPnPsu\material\models\Repair;
+
+use yii\web\UploadedFile;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 /**
  * MaterialController implements the CRUD actions for Material model.
@@ -62,6 +65,35 @@ class DefaultController extends Controller {
     public function actionCreate() {
         $model = new Material();
 
+        if (Yii::$app->request->isPost) {
+
+            $model->file = UploadedFile::getInstance($model, 'file');
+            if(isset($model->file)){
+                if ($model->upload()) {
+                    $model->invt_image = basename($model->filepath);
+                    Yii::$app->getSession()->setFlash('addfile', [
+                        'type' => 'success',
+                        'duration' => 4000,
+                        'icon' => 'glyphicon glyphicon-ok-circle',
+                        'message' => 'fileUploaded!',
+                    ]);
+
+                }else{
+                    Yii::$app->getSession()->setFlash('addfile', [
+                        'type' => 'danger',
+                        'duration' => 4000,
+                        'icon' => 'glyphicon glyphicon-ok-circle',
+                        'message' => 'filenotUploaded!',
+                    ]);
+                }
+
+            }
+
+        }
+
+        $model->created_at = date('Y-md H:i');
+        $model->created_by = Yii::$app->user->id;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -79,6 +111,35 @@ class DefaultController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
+
+        if (Yii::$app->request->isPost) {
+
+            $model->file = UploadedFile::getInstance($model, 'file');
+            if(isset($model->file)){
+                if ($model->upload()) {
+                    $model->invt_image = basename($model->filepath);
+                    Yii::$app->getSession()->setFlash('addfile', [
+                        'type' => 'success',
+                        'duration' => 4000,
+                        'icon' => 'glyphicon glyphicon-ok-circle',
+                        'message' => 'fileUploaded!',
+                    ]);
+
+                }else{
+                    Yii::$app->getSession()->setFlash('addfile', [
+                        'type' => 'danger',
+                        'duration' => 4000,
+                        'icon' => 'glyphicon glyphicon-ok-circle',
+                        'message' => 'filenotUploaded!',
+                    ]);
+                }
+
+            }
+
+        }
+        
+        $model->updated_at = date('Y-md H:i');
+        $model->updated_by = Yii::$app->user->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
