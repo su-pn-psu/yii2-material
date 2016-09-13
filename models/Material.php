@@ -19,6 +19,7 @@ use Yii;
  * @property integer $updated_at
  * @property integer $updated_by
  * @property string $image
+ * @property string $material_type_id
  *
  * @property Repair[] $repairs
  */
@@ -34,7 +35,7 @@ class Material extends \yii\db\ActiveRecord
 
     public $file;
     public $filepath;
-    public $availlist = ['0'=>'yes','1'=>'no'];
+    public $availlist = ['0'=>'no','1'=>'yes'];
     public $statlist = ['0'=>'damaged','1'=>'ready'];
     /**
      * @inheritdoc
@@ -46,9 +47,9 @@ class Material extends \yii\db\ActiveRecord
             [['status', 'available', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['bought_at', 'warrant_at'], 'safe'],
             [['id'], 'string', 'max' => 30],
-            [['title', 'invt_image'], 'string', 'max' => 255],
+            [['title', 'image'], 'string', 'max' => 255],
             [['brand'], 'string', 'max' => 100],
-            [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['file'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -59,7 +60,7 @@ class Material extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'รหัสครุภัณฑ์'),
-            'title' => Yii::t('app', 'ครุภัณฑ์'),
+            'title' => Yii::t('app', 'ชื่อครุภัณฑ์'),
             'brand' => Yii::t('app', 'ยี่ห้อ'),
             'status' => Yii::t('app', 'สถานะ'),
             'bought_at' => Yii::t('app', 'วันที่ซื้อ'),
@@ -68,7 +69,7 @@ class Material extends \yii\db\ActiveRecord
             'created_by' => Yii::t('app', 'สร้างโดย'),
             'updated_at' => Yii::t('app', 'ปรับปรุงเมื่อ'),
             'updated_by' => Yii::t('app', 'แก้ไขโดย'),
-            'invt_image' => 'รูปภาพ',
+            'image' => 'รูปภาพ',
             'available' => 'พร้อมยืม',
         ];
     }
@@ -78,15 +79,10 @@ class Material extends \yii\db\ActiveRecord
         $defaultImageWidth = 1024;
 
         if ($this->validate(['file'])) {
-            $targetPath = Yii::getAlias('@web/uploads/material_files/');
+            $targetPath = '/uploads/material_files/';
             $this->filepath = $targetPath .time().'_'. $this->file->baseName . '.' . $this->file->extension;
             //echo $this->filepath;exit;
             $this->file->saveAs($this->filepath);
-            /*if($this->isImage($this->filepath)){
-                $image= Yii::$app->image->load($this->filepath);
-                $image->resize($defaultImageWidth);
-                $image->save($this->filepath);
-            }*/
             return true;
         } else {
             return false;
