@@ -40,42 +40,27 @@ use kartik\widgets\DatePicker;
 //            ]
 //        ]
     )->radioList($model->availlist, ['inline'=>true]) ?>
-    <?php
-//    echo $form->field($model, 'file',[
-//        'addon' => [
-//            'append' => !empty($model->invt_image) ? [
-//                'content'=> Html::a( Html::icon('download').' '.Yii::t('kpi/app', 'download'), Yii::getAlias('@webfrontend/uploads/inventory_files/'.$model->invt_image), ['class' => 'btn btn-success', 'target' => '_blank']), 'asButton'=>true] : false
-//        ]])->widget(FileInput::classname(), [
-//        //'options' => ['accept' => 'image/*'],
-//        'pluginOptions' => [
-//            'showPreview' => false,
-//            'showCaption' => true,
-//            'showRemove' => true,
-//            'initialCaption'=> $model->isNewRecord ? '' : $model->invt_image,
-//            'showUpload' => false
-//        ]
-//    ]);
-    ?>
 
     <?php //= $form->field($model, 'file')->fileInput() ?>
     <?php
     echo $form->field($model, 'file',[
         'addon' => [
-            'append' => !empty($model->invt_image) ? [
-                'content'=> Html::a( Html::icon('download').' '.Yii::t('kpi/app', 'download'), Yii::getAlias('@webfrontend/uploads/inventory_files/'.$model->invt_image), ['class' => 'btn btn-success', 'target' => '_blank']), 'asButton'=>true] : false
+            'append' => !empty($model->image) ? [
+                //'content'=> Html::a( Html::icon('download').' '.Yii::t('app', 'download'), Yii::getAlias('@webfrontend/uploads/inventory_files/'.$model->image), ['class' => 'btn btn-success', 'target' => '_blank']), 'asButton'=>true] : false
+                'content'=> Html::a( Html::icon('download').' '.Yii::t('app', 'download'), Yii::getAlias('@web'.$model->image), ['class' => 'btn btn-success', 'target' => '_blank']), 'asButton'=>true] : false
         ]])->widget(FileInput::classname(), [
         //'options' => ['accept' => 'image/*'],
         'pluginOptions' => [
             'showPreview' => false,
             'showCaption' => true,
             'showRemove' => true,
-            'initialCaption'=> $model->isNewRecord ? '' : $model->invt_image,
+            'initialCaption'=> $model->isNewRecord ? '' : $model->image,
             'showUpload' => false
         ]
     ]);
     ?>
 
-    <?= $form->field($model, 'bought_at')->widget(DatePicker::classname(), [
+    <?php /*= $form->field($model, 'bought_at')->widget(DatePicker::classname(), [
         'language' => 'th',
         'options' => ['placeholder' => Yii::t( 'app', 'enterdate')],
         'type' => DatePicker::TYPE_COMPONENT_APPEND,
@@ -83,9 +68,9 @@ use kartik\widgets\DatePicker;
             'autoclose' => true,
             'format' => 'yyyy-mm-dd'
         ]
-    ]); ?>
+    ]);*/ ?>
 
-    <?= $form->field($model, 'warrant_at')->widget(DatePicker::classname(), [
+    <?php /*= $form->field($model, 'warrant_at')->widget(DatePicker::classname(), [
         'language' => 'th',
         'options' => ['placeholder' => Yii::t( 'app', 'enterdate')],
         'type' => DatePicker::TYPE_COMPONENT_APPEND,
@@ -93,7 +78,7 @@ use kartik\widgets\DatePicker;
             'autoclose' => true,
             'format' => 'yyyy-mm-dd'
         ]
-    ]); ?>
+    ]);*/ ?>
 
     <?php //= $form->field($model, 'created_at')->textInput() ?>
 

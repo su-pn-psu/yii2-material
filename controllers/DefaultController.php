@@ -145,7 +145,7 @@ class DefaultController extends Controller {
             }
 
         }
-        $model->updated_at = date('Y-md H:i');
+        $model->updated_at = 0;
         $model->updated_by = Yii::$app->user->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

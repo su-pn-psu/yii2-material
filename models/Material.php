@@ -47,8 +47,7 @@ class Material extends \yii\db\ActiveRecord
             [['status', 'available', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['bought_at', 'warrant_at'], 'safe'],
             [['id'], 'string', 'max' => 30],
-            [['title', 'image'], 'string', 'max' => 255],
-            [['brand'], 'string', 'max' => 100],
+            [['title', 'image', 'brand'], 'string', 'max' => 255],
             [['file'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
@@ -61,7 +60,7 @@ class Material extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'รหัสครุภัณฑ์'),
             'title' => Yii::t('app', 'ชื่อครุภัณฑ์'),
-            'brand' => Yii::t('app', 'ยี่ห้อ'),
+            'brand' => Yii::t('app', 'รายละเอียด'),
             'status' => Yii::t('app', 'สถานะ'),
             'bought_at' => Yii::t('app', 'วันที่ซื้อ'),
             'warrant_at' => Yii::t('app', 'วันที่หมดประกัน'),
@@ -91,6 +90,12 @@ class Material extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+
+    public function getBookingmaterials()
+    {
+        return $this->hasMany(Bookingmaterial::className(), ['material_id' => 'id']);
+    }
+
     public function getRepairs()
     {
         return $this->hasMany(Repair::className(), ['material_id' => 'id']);
