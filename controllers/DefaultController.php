@@ -65,12 +65,12 @@ class DefaultController extends Controller {
     public function actionCreate() {
         $model = new Material();
 
-        /*if (Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost) {
 
             $model->file = UploadedFile::getInstance($model, 'file');
             if(isset($model->file)){
                 if ($model->upload()) {
-                    $model->invt_image = basename($model->filepath);
+                    $model->image = basename($model->filepath);
                     Yii::$app->getSession()->setFlash('addfile', [
                         'type' => 'success',
                         'duration' => 4000,
@@ -89,7 +89,7 @@ class DefaultController extends Controller {
 
             }
 
-        }*/
+        }/**/
 
         //$model->created_at = date('Y-md H:i');
         $model->created_at = 0;
@@ -125,7 +125,7 @@ class DefaultController extends Controller {
             $model->file = UploadedFile::getInstance($model, 'file');
             if(isset($model->file)){
                 if ($model->upload()) {
-                    $model->invt_image = basename($model->filepath);
+                    $model->image = basename($model->filepath);
                     Yii::$app->getSession()->setFlash('addfile', [
                         'type' => 'success',
                         'duration' => 4000,

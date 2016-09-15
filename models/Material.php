@@ -78,7 +78,7 @@ class Material extends \yii\db\ActiveRecord
         $defaultImageWidth = 1024;
 
         if ($this->validate(['file'])) {
-            $targetPath = '/uploads/material_files/';
+            $targetPath = Yii::getAlias('@uploads/material_files/');
             $this->filepath = $targetPath .time().'_'. $this->file->baseName . '.' . $this->file->extension;
             //echo $this->filepath;exit;
             $this->file->saveAs($this->filepath);
