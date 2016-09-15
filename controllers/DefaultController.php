@@ -70,7 +70,7 @@ class DefaultController extends Controller {
             $model->file = UploadedFile::getInstance($model, 'file');
             if(isset($model->file)){
                 if ($model->upload()) {
-                    $model->invt_image = basename($model->filepath);
+                    $model->image = basename($model->filepath);
                     Yii::$app->getSession()->setFlash('addfile', [
                         'type' => 'success',
                         'duration' => 4000,
@@ -89,14 +89,22 @@ class DefaultController extends Controller {
 
             }
 
-        }
+        }/**/
 
-        $model->created_at = date('Y-md H:i');
+        //$model->created_at = date('Y-md H:i');
+        $model->created_at = 0;
         $model->created_by = Yii::$app->user->id;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                print_r($model->getErrors());
+                //print_r($model->save());
+            }
+
         } else {
+
             return $this->render('create', [
                         'model' => $model,
             ]);
@@ -117,7 +125,7 @@ class DefaultController extends Controller {
             $model->file = UploadedFile::getInstance($model, 'file');
             if(isset($model->file)){
                 if ($model->upload()) {
-                    $model->invt_image = basename($model->filepath);
+                    $model->image = basename($model->filepath);
                     Yii::$app->getSession()->setFlash('addfile', [
                         'type' => 'success',
                         'duration' => 4000,
@@ -137,8 +145,7 @@ class DefaultController extends Controller {
             }
 
         }
-        
-        $model->updated_at = date('Y-md H:i');
+        $model->updated_at = 0;
         $model->updated_by = Yii::$app->user->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
