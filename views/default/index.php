@@ -8,7 +8,7 @@ use suPnPsu\material\models\Material;
 /* @var $searchModel suPnPsu\material\models\MaterialSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Materials');
+$this->title = Yii::t('app', 'ระบบจัดการพัสดุ');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class='box box-info'>
