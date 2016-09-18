@@ -3,7 +3,7 @@
 namespace suPnPsu\material\models;
 
 use Yii;
-
+use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "material".
  *
@@ -35,8 +35,8 @@ class Material extends \yii\db\ActiveRecord
 
     public $file;
     public $filepath;
-    public $availlist = ['0'=>'no','1'=>'yes'];
-    public $statlist = ['0'=>'damaged','1'=>'ready'];
+    //public $availlist = ['0'=>'no','1'=>'yes'];
+    //public $statlist = ['0'=>'damaged','1'=>'ready'];
     /**
      * @inheritdoc
      */
@@ -70,7 +70,45 @@ class Material extends \yii\db\ActiveRecord
             'updated_by' => Yii::t('app', 'แก้ไขโดย'),
             'image' => 'รูปภาพ',
             'available' => 'พร้อมยืม',
+            'statusLabel' => 'สถานะ'
         ];
+    }
+
+    public static function itemsAlias($key) {
+        $items = [
+            'availlist' => [
+                0 => Yii::t('app', 'พร้อม'),
+                1 => Yii::t('app', 'ไม่พร่อม'),
+            ],
+            'status' => [
+                0 => Yii::t('app', 'เสียหาย'),
+                1 => Yii::t('app', 'ปกติ'),
+            ]
+        ];
+        return ArrayHelper::getValue($items, $key, []);
+    }
+
+    public function getStatusLabel(){
+        $status = ArrayHelper::getValue($this->getItemStatus(), $this->status);
+        $status = ($this->status === NULL) ? ArrayHelper::getValue($this->getItemStatus(), 0) : $status;
+        switch ($this->status) {
+            case 0 :
+            case NULL :
+                $str = '<span class="label label-warning">' . $status . '</span>';
+                break;
+            case 1 :
+                $str = '<span class="label label-primary">' . $status . '</span>';
+                break;
+            default :
+                $str = $status;
+                break;
+        }
+
+        return $str;
+    }
+
+    public static function getItemStatus() {
+        return self::itemsAlias('status');
     }
 
     public function upload()

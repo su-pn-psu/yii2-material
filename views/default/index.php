@@ -3,6 +3,7 @@
 use yii\bootstrap\Html;
 //use yii\grid\GridView;
 use kartik\grid\GridView;
+use suPnPsu\material\models\Material;
 /* @var $this yii\web\View */
 /* @var $searchModel suPnPsu\material\models\MaterialSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -34,8 +35,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         'width' => '100px',
                     ],
                 ],
-                'brand',
-                'status',
+                'brand',               
+                [
+                    'attribute' => 'status',
+                    'value' => 'statusLabel',
+                    'filter'=> Material::getItemStatus(),
+                    'format'=>'html'
+                ],
                 'bought_at',
                 // 'warrant_at',
                 // 'created_at',
